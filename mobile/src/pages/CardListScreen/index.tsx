@@ -10,6 +10,7 @@ import { RootState } from '../../store';
 import { theme } from '../../common/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { horizontalScale, moderateScale, verticalScale } from '../../common/utils/dimensions';
 
 const CardListScreen = () => {
   const  navigation  = useNavigation();
@@ -33,8 +34,8 @@ const CardListScreen = () => {
         loop={false}
         ref={wallet}
         style={{
-          width: 200,
-          height: 200,
+          width: verticalScale(200),
+          height: horizontalScale(200),
           backgroundColor: 'transparent',
           elevation: 4,
           zIndex: 2,
@@ -64,8 +65,8 @@ const CardListScreen = () => {
       verticalSwipe={false}
       onTapCard={(cardIndex) => handleTapCard(cardIndex)}
       cardStyle={{
-        paddingTop: 20,
-        marginTop: 240,
+        paddingTop: verticalScale(20),
+        marginTop: 140,
       }}
       keyExtractor={(card) => card.id as string}
     />

@@ -38,13 +38,13 @@ const CreditCard = ({ card, testId }:Props) => {
       color={cardType.backgroundColor}
       testID={`${testId}-card`}
     >
-      <S.Line
+      <S.Title
         style={theme.regular}
         color={cardType.fontColor}
         testID={`${testId}-card-title`}
       >
          {cardType.name}
-      </S.Line>
+      </S.Title>
       <S.Line
         style={theme.regular}
         color={cardType.fontColor}
