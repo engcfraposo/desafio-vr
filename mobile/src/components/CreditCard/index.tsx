@@ -38,34 +38,34 @@ const CreditCard = ({ card, testId }:Props) => {
       color={cardType.backgroundColor}
       testID={`${testId}-card`}
     >
-      <S.Title
+      <S.Line
         style={theme.regular}
         color={cardType.fontColor}
         testID={`${testId}-card-title`}
       >
          {cardType.name}
-      </S.Title>
-      <S.Name
+      </S.Line>
+      <S.Line
         style={theme.regular}
         color={cardType.fontColor}
         testID={`${testId}-card-name`}
       >
           {card.name}
-      </S.Name>
-      <S.Number
+      </S.Line>
+      <S.Line
         style={theme.regular}
         color={cardType.fontColor}
         testID={`${testId}-card-number`}
       >
           {maskedCardNumber}
-      </S.Number>
-      <S.ValidDate
+      </S.Line>
+      <S.Line
         style={theme.regular}
         color={cardType.fontColor}
         testID={`${testId}-card-validDate`}
       >
           {card.validDate}
-      </S.ValidDate>
+      </S.Line>
     </S.Card>
   );
 }

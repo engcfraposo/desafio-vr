@@ -59,6 +59,56 @@ A avaliação do seu projeto levará em consideração os seguintes critérios:
 
 8. **Reaproveitamento de código**: Será avaliado o quanto você conseguiu reutilizar código e componentes para evitar duplicações e facilitar a manutenção do projeto.
 
+## Backend - Testes Unitários e de Integração
+
+O backend do projeto utiliza testes unitários e de integração para garantir a qualidade e o correto funcionamento das funcionalidades desenvolvidas. Abaixo estão detalhadas as informações sobre os testes e como executá-los:
+
+### Testes Unitários
+
+Os testes unitários são responsáveis por verificar o correto funcionamento das partes individuais do código, ou seja, testam as unidades isoladamente para garantir que cada uma delas está funcionando conforme o esperado.
+
+Para executar os testes unitários do backend, utilize o seguinte comando:
+
+```bash
+npm run test
+```
+
+O Jest é a biblioteca utilizada para executar os testes unitários. Eles estão localizados no diretório "test" e têm a extensão ".spec.ts". Os arquivos de teste são configurados para rodar todos os testes que estão na pasta "test".
+
+### Testes de Integração
+
+Os testes de integração são responsáveis por verificar o correto funcionamento das interações entre diferentes partes do sistema, garantindo que elas se integrem de forma adequada e produzam o resultado esperado.
+
+Para executar os testes de integração do backend, utilize o seguinte comando:
+
+```bash
+npm run test:int-cov
+```
+
+Os testes de integração utilizam o Jest e estão localizados no diretório "test". Eles têm a extensão ".int-spec.ts". Além disso, antes de executar os testes de integração, o banco de dados é recriado utilizando o Prisma, para garantir que os testes sejam executados em um ambiente limpo e consistente.
+
+### Cobertura de Testes
+
+Ao executar os testes com o comando `npm run test:cov`, você também pode gerar um relatório de cobertura de testes. Isso irá mostrar a porcentagem de código testada pelos testes unitários e de integração.
+
+## Mobile - Testes Unitários
+
+O projeto utiliza testes unitários para garantir a qualidade e o correto funcionamento das funcionalidades desenvolvidas. Abaixo estão detalhadas as informações sobre os testes e como executá-los:
+
+### Testes Unitários
+Os testes unitários são responsáveis por verificar o correto funcionamento das partes individuais do código, ou seja, testam as unidades isoladamente para garantir que cada uma delas está funcionando conforme o esperado.
+
+Para executar os testes unitários do mobile:
+```bash
+npm run test
+```
+
+O Jest é a biblioteca utilizada para executar os testes unitários. Eles estão localizados no diretório "test" e têm a extensão ".spec.ts". Os arquivos de teste são configurados para rodar todos os testes que estão na pasta "test".
+
+### Cobertura de Testes
+
+Ao executar os testes com o comando `npm run test:cov`, você também pode gerar um relatório de cobertura de testes. Isso irá mostrar a porcentagem de código testada pelos testes unitários e de integração.
+
 ## Inicialização da API
 
 Para obter os dados da API, utilize a api criada com NestJS ou JSON Server. O arquivo base para a inicialização do servidor está presente no final deste documento. Ao cadastrar um novo cartão, os dados devem ser enviados para o endpoint /cards, e o novo cartão retornado na listagem de dados para ser exibido ao usuário.
@@ -93,7 +143,6 @@ EXPO_PUBLIC_API_URL="http://<SEU_IP>:3000"
 
 1. **Backend**
 
-# Backend
 
 Para executar o servidor do backend, siga os passos abaixo:
 
@@ -131,6 +180,7 @@ npm run start:dev
 
 Com esses passos concluídos, o servidor backend estará em execução e pronto para atender às solicitações da aplicação frontend mobile.
 
+
 ## Inicialização do App
 
 Após clonar ou baixar o repositório do projeto, navegue para o diretório do aplicativo no terminal e instale as dependências utilizando o proprio expo:
@@ -164,7 +214,7 @@ Desafios e Aprendizado: Durante o desenvolvimento, enfrentei alguns desafios, co
 
 Reaproveitamento de Código: Procurei aplicar o conceito de reaproveitamento de código sempre que possível, criando componentes reutilizáveis e organizando a estrutura do projeto de forma escalável.
 
-Testes: Embora o teste não mencionasse explicitamente a necessidade de testes, acredito na importância dos testes para garantir a qualidade e a robustez da aplicação. Dessa forma, criei testes unitários e de integração(backend) para das funcionalidades essenciais da carteira virtual.
+Testes: Embora o teste não mencionasse explicitamente qual testes, acredito na importância dos testes para garantir a qualidade e a robustez da aplicação. Dessa forma, criei testes unitários (mobile, backend) e de integração(backend) para das funcionalidades essenciais da carteira virtual.
 
 No geral, o teste prático foi uma experiência enriquecedora, me permitindo aprofundar meus conhecimentos em desenvolvimento mobile e aprender novas tecnologias. Sinto-me confiante em relação ao resultado final da carteira virtual desenvolvida e estou ansioso para continuar aprimorando minhas habilidades na área.
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import SplashScreen from '.';
-import LottieView from 'lottie-react-native';
 
 // Mock the LottieView component to prevent errors during rendering
 jest.mock('lottie-react-native', () => 'LottieView');

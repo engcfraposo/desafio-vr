@@ -1,7 +1,9 @@
 import Button from '../../components/Button';
 import Container from '../../components/Container';
+import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
+    const  navigation  = useNavigation();
     return (
         <Container
             title="Wallet Test"

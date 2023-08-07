@@ -5,11 +5,19 @@ import MyCardContainer from '../../components/MyCardContainer';
 import React from 'react';
 import Toast from 'react-native-toast-message';
 import { Card } from '../../common/zod';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const PayScreen: React.FC = ({ route, navigation}) => {
-  const { id, cards } = route.params;
-  const card: Card = cards.find((c: { id: string; }) => c.id === id);
-  const nextCardList = cards.filter((c: { id: string; }) => c.id !== id);
+type ParamsProps = {
+  id: string;
+  cards: Card[];
+}
+
+const PayScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { id, cards } = route.params as ParamsProps;
+  const card = cards.find((c) => c.id === id) as Card;
+  const nextCardList = cards.filter((c) => c.id !== id);
   const nextCard = nextCardList[0];
   const maskedCardNumber = "****  ****  ****  " + card.number.slice(-4);
   const handlePress = () => {
@@ -21,7 +29,10 @@ const PayScreen: React.FC = ({ route, navigation}) => {
     })
   }
   const handleNextPress = () => {
-    navigation.navigate('PayScreen', { id: nextCard.id, cards: [...nextCardList, card]})
+    navigation.navigate('PayScreen', {
+      id: nextCard.id as string,
+      cards: [...nextCardList, card]
+    })
   }
   return (
     <MyCardContainer testId={"payScreen"}>
@@ -37,12 +48,14 @@ const PayScreen: React.FC = ({ route, navigation}) => {
         onPress={handlePress}
       />
       </S.CardView>
-      <S.NextCardView onPress={handleNextPress}>
+      { cards.length > 1 && (
+        <S.NextCardView onPress={handleNextPress} testID='payScreen_nextCard_button'>
         <CreditCard
           card={nextCard}
           testId='payScreen_nextCard'
         />
       </S.NextCardView>
+      )}
     </MyCardContainer>
   );
 }

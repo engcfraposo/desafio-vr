@@ -4,12 +4,10 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import CardListScreen from '.';
+import { useNavigation } from '@react-navigation/native';
 
 // Mocking navigation object
-const navigation = {
-  navigate: jest.fn(),
-};
-
+jest.mock('@react-navigation/native')
 // Mock the Redux store
 const mockStore = configureStore([thunk]);
 
@@ -24,7 +22,7 @@ describe('CardListScreen', () => {
 
     const { getByTestId, getByText } = render(
       <Provider store={store}>
-        <CardListScreen navigation={navigation} />
+        <CardListScreen />
       </Provider>
     );
 
@@ -77,7 +75,7 @@ describe('CardListScreen', () => {
 
     const { getByTestId, getByText } = render(
       <Provider store={store}>
-        <CardListScreen navigation={navigation} />
+        <CardListScreen />
       </Provider>
     );
 
@@ -109,7 +107,7 @@ describe('CardListScreen', () => {
 
     const { getByTestId, getByText } = render(
       <Provider store={store}>
-        <CardListScreen navigation={navigation} />
+        <CardListScreen />
       </Provider>
     );
 
@@ -138,10 +136,12 @@ describe('CardListScreen', () => {
       },
     };
     const store = mockStore(initialState);
+    const mockNavigate = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <CardListScreen navigation={navigation} />
+        <CardListScreen  />
       </Provider>
     );
 
@@ -150,9 +150,10 @@ describe('CardListScreen', () => {
     fireEvent(firstCard, 'onTapCard', 0);
 
     // Check if navigation.navigate was called with the correct argument
-    expect(navigation.navigate).toHaveBeenCalledWith('PayScreen', {
+    expect(mockNavigate).toHaveBeenCalledWith('PayScreen', {
       id: 'card-id-1',
       cards: initialState.cards.cards,
     });
   });
 });
+

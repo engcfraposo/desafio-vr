@@ -2,7 +2,6 @@ import axios from 'axios';
 import { Card } from '../../zod';
 import Toast from 'react-native-toast-message';
 
-jest.mock('react-native-toast-message');
 
 const baseUrl = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL

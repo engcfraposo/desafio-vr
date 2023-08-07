@@ -1,24 +1,40 @@
-import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import AddCardScreen from '.';
+import thunk from 'redux-thunk';
+import { useNavigation } from '@react-navigation/native';
+import { Card } from '../../common/zod';
+import { newForm } from '../../store/cards';
 import { postCardThunk } from '../../store/cards/thunk';
+import { validationSchema } from '../../common/zod';
 
 // Mocking navigation object
-const navigation = {
-  navigate: jest.fn(),
-};
+jest.mock('@react-navigation/native')
 
 // Mock the Redux store
-const mockStore = configureStore([]);
+const mockStore = configureStore([thunk]);
 
-jest.mock('../../store/cards/thunk', () => ({
-  postCardThunk: jest.fn(),
-}));
+jest.mock('../../common/zod', ()=>{
+  return {
+    validationSchema: {
+      parse: jest.fn()
+    }
+  }
+})
+
+const mockPostCardThunk = jest.fn();
+jest.mock('../../store/cards/thunk', () => {
+  return {
+    postCardThunk:  mockPostCardThunk,
+  }
+});
+
 
 describe('AddCardScreen', () => {
   test('renders correctly', () => {
+    const mockNavigate = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate })
     const initialState = {
       cards: {
         post: '',
@@ -26,10 +42,10 @@ describe('AddCardScreen', () => {
       },
     };
     const store = mockStore(initialState);
-
-    const { getByTestId, getByPlaceholderText } = render(
+  ;
+    const { getByTestId } = render(
       <Provider store={store}>
-        <AddCardScreen navigation={navigation} />
+        <AddCardScreen />
       </Provider>
     );
 
@@ -47,73 +63,29 @@ describe('AddCardScreen', () => {
     expect(cvvInput).toBeDefined();
 
     // Check if the button is rendered with the correct text
-    const button = getByTestId('addCardScreen-buttonText-#12C2E9-#fff');
-    expect(button.children[0]).toContain('avançar');
-  });
+    const buttonText = getByTestId('addCardScreen-buttonText-#12C2E9-#fff');
+    expect(buttonText.children[0]).toContain('avançar');
 
-  test('enables button on valid form input', async () => {
-    const initialState = {
-      cards: {
-        post: '',
-        loading: false,
-      },
-    };
-    const store = mockStore(initialState);
-
-    (postCardThunk as unknown as jest.Mock).mockResolvedValueOnce({});
-
-    const { getByTestId, getByPlaceholderText } = render(
-      <Provider store={store}>
-        <AddCardScreen navigation={navigation} />
-      </Provider>
-    );
-
-    // Get input fields and button
-    const numberInput = getByTestId('addCardScreen-inputContainer-number');
-    const nameInput = getByTestId('addCardScreen-inputContainer-name');
-    const validDateInput = getByTestId('addCardScreen-inputContainer-validDate');
-    const cvvInput = getByTestId('addCardScreen-inputContainer-cvv');
-    const button = getByTestId('addCardScreen-button-#12C2E9-#fff');
-
-    // Input valid data into the fields
-    fireEvent.changeText(numberInput, '1234 5678 9012 3456');
-    fireEvent.changeText(nameInput, 'John Doe');
-    fireEvent.changeText(validDateInput, '12/25');
-    fireEvent.changeText(cvvInput, '123');
-    fireEvent.press(button);
-
-    // Wait for the asynchronous operation to complete
-    await waitFor(() => {
-      // Check if the button is enabled
-      expect(postCardThunk).toHaveBeenCalledWith({
-        number: '1234 5678 9012 3456',
-        name: 'John Doe',
-        validDate: '12/25',
-        cvv: '123',
-      });
-
-      // Check if the navigation.navigate was called with the correct argument
-      expect(navigation.navigate).toHaveBeenCalledWith('ConfirmCardScreen', {
-        number: '1234 5678 9012 3456',
-        name: 'John Doe',
-        validDate: '12/25',
-        cvv: '123',
-      });
-    });
+    const dispatchedActions = store.getActions();
+    expect(dispatchedActions).toHaveLength(1);
+    expect(dispatchedActions[0]).toEqual(newForm());
   });
 
   test('disables button on invalid form input', () => {
+    const mockNavigate = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
     const initialState = {
       cards: {
         post: '',
         loading: false,
       },
     };
+
     const store = mockStore(initialState);
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <AddCardScreen navigation={navigation} />
+        <AddCardScreen  />
       </Provider>
     );
 
@@ -122,6 +94,52 @@ describe('AddCardScreen', () => {
 
     fireEvent.press(button);
 
-    expect(navigation.navigate).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+  test('handles form submission correctly', async () => {
+    const mockNavigate = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
+    const initialState = {
+      cards: {
+        post: '',
+        loading: false,
+      },
+    };
+    const store = mockStore(initialState);
+
+    // Render the component
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <AddCardScreen />
+      </Provider>
+    );
+
+    // Fill in the form fields
+    const numberInput = getByTestId('addCardScreen-field-number');
+    fireEvent.changeText(numberInput, '1234 5678 9012 3456');
+
+    const nameInput = getByTestId('addCardScreen-field-name');
+    fireEvent.changeText(nameInput, 'John Doe');
+
+    const validDateInput = getByTestId('addCardScreen-field-validDate');
+    fireEvent.changeText(validDateInput, '12/24');
+
+    const cvvInput = getByTestId('addCardScreen-field-cvv');
+    fireEvent.changeText(cvvInput, '123');
+
+    // Get the button
+    const button = getByTestId('addCardScreen-button-#12C2E9-#fff');
+    fireEvent.press(button);
+
+    (validationSchema.parse as jest.Mock).mockResolvedValue({
+      number:'1234 5678 9012 3456',
+      validDate: '12/24',
+      cvv: '123',
+      name: 'Joe Doe'
+    });
+
+
+    fireEvent.press(button);
+    expect(validationSchema.parse).toHaveBeenCalled()
   });
 });

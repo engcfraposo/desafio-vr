@@ -1,11 +1,9 @@
 import { render, fireEvent } from '@testing-library/react-native';
 import ConfirmCardScreen from '.';
 import { Card } from '../../common/zod';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-// Mocking navigation object
-const navigation = {
-  navigate: jest.fn(),
-};
+jest.mock('@react-navigation/native');
 
 const mockCard: Card = {
   number: '1234 5678 9012 3456',
@@ -16,8 +14,12 @@ const mockCard: Card = {
 };
 describe('ConfirmCardScreen', () => {
   test('renders correctly', () => {
+    const mockRoute = {
+      params: mockCard,
+    };
+    (useRoute as jest.Mock).mockReturnValue(mockRoute);
     const { getByTestId, getByText } = render(
-      <ConfirmCardScreen route={{ params: mockCard }} navigation={navigation} />
+      <ConfirmCardScreen  />
     );
 
     // Check if the screen title is rendered
@@ -48,14 +50,20 @@ describe('ConfirmCardScreen', () => {
   });
 
   test('navigates to CardListScreen on button press', () => {
+    const mockRoute = {
+      params: mockCard,
+    };
+    (useRoute as jest.Mock).mockReturnValue(mockRoute);
+    const mockNavigate = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
     const { getByTestId } = render(
-      <ConfirmCardScreen route={{ params: mockCard }} navigation={navigation} />
+      <ConfirmCardScreen  />
     );
 
     const button = getByTestId('ConfirmCardScreen-button-#12C2E9-#fff');
     fireEvent.press(button);
 
     // Check if navigation.navigate was called with the correct argument
-    expect(navigation.navigate).toHaveBeenCalledWith('CardListScreen');
+    expect(mockNavigate).toHaveBeenCalledWith('CardListScreen');
   });
 });

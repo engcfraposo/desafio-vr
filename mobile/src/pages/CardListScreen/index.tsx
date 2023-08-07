@@ -9,8 +9,10 @@ import { fetchCardThunk } from '../../store/cards/thunk';
 import { RootState } from '../../store';
 import { theme } from '../../common/theme';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
-const CardListScreen = ({ navigation }) => {
+const CardListScreen = () => {
+  const  navigation  = useNavigation();
   const wallet = useRef<LottieView>(null);
   const dispatch = useDispatch();
   const { cards } = useSelector((state: RootState)=> state.cards)
@@ -19,7 +21,7 @@ const CardListScreen = ({ navigation }) => {
   },[])
 
   const handleTapCard = (cardIndex: number) => {
-    navigation.navigate("PayScreen", { id: cards[cardIndex].id, cards})
+    navigation.navigate("PayScreen", { id: cards[cardIndex].id as string, cards})
   }
 
   if (cards.length === 0) {

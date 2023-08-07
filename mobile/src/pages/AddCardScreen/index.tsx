@@ -9,8 +9,11 @@ import { RootState } from '../../store';
 import { RowContainer } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-const AddCardScreen = ({ navigation }) => {
+
+const AddCardScreen = () => {
+  const navigation  = useNavigation();
   const dispatch = useDispatch();
   const cards = useSelector((state: RootState) => state.cards);
   const [values, setValues] = useState<Card>({
@@ -42,7 +45,6 @@ const AddCardScreen = ({ navigation }) => {
       validationSchema.parse(values);
       return true;
     } catch (error: any) {
-      console.error(error?.message)
       return false;
     }
   };

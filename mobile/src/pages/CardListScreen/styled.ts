@@ -1,15 +1,16 @@
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
+import { verticalScale, moderateScale } from "../../common/utils/dimensions";
 
 export const Text = styled.Text`
-  font-size: 18px;
-  line-height: 18px;
+  font-size: ${moderateScale(18)}px;
+  line-height: ${moderateScale(18)}px;
   color: #FFFFFF;
-  margin-top: 120px;
+  margin-top: ${verticalScale(120)}px;
 `;
 
 export const CardListFooter = styled.View`
-  margin-top: 120px;
+  margin-top: ${verticalScale(120)}px;
   flex: 1;
   align-items: center;
   justify-content: center;

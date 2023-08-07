@@ -17,34 +17,10 @@ export const Card = styled.View<{ color: string }>`
   border: 0.4px solid #f0f0f0;
 `;
 
-export const Title = styled.Text<{color: string}>`
-  font-size: 18px;
-  line-height: 20px;
-  display: flex;
-  align-items: center;
-  color: ${({color}) => color};
-`
 
-export const Name = styled.Text<{color: string}>`
-  margin-top: 20px;
-  font-size: 16px;
-  line-height: 28px;
-  display: flex;
-  align-items: center;
-  color: ${({color}) => color};
-`
-
-export const Number = styled.Text<{color: string}>`
-  font-size: 14px;
-  line-height: 16px;
-  display: flex;
-  align-items: center;
-  color: ${({color}) => color};
-`
-
-export const ValidDate = styled.Text<{color: string}>`
-  font-size: 14px;
-  line-height: 16px;
+export const Line = styled.Text<{color: string}>`
+  font-size: ${moderateScale(16)}px;
+  line-height: ${moderateScale(28)}px;
   display: flex;
   align-items: center;
   color: ${({color}) => color};
