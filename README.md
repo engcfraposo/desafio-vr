@@ -8,9 +8,6 @@ Este é um teste prático para a posição de Frontend Mobile, onde foi desenvol
 
 O layout da aplicação deve ser construído com base no design proposto no Figma, disponível no seguinte link: [Layout do Figma](https://www.figma.com/file/LQJIMG9Kg8kqL0821rBkiQ/Wallet-Test?node-id=2-1039).
 
-### Dados da API
-
-
 
 ### Ferramentas e Bibliotecas
 
