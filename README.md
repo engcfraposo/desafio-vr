@@ -89,7 +89,7 @@ Os testes de integração utilizam o Jest e estão localizados no diretório "te
 
 ### Cobertura de Testes
 
-Ao executar os testes com o comando `npm run test:cov`, você também pode gerar um relatório de cobertura de testes. Isso irá mostrar a porcentagem de código testada pelos testes unitários e de integração.
+Ao executar os testes com o comando `npm run test:cov` para testes unitários e `npm run test:int-cov` para de integração, você também pode gerar um relatório de cobertura de testes. Isso irá mostrar a porcentagem de código testada pelos testes unitários e de integração.
 
 ## Mobile - Testes Unitários
 
