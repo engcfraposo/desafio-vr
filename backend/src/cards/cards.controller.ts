@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
@@ -68,6 +69,7 @@ export class CardsController {
   @ApiNotFoundResponse({ description: 'Card not found.' })
   async findOneByNumber(@Param('number') number: string) {
     const res = await this.cardsService.findOneByNumber(number);
+    if(!res) throw new NotFoundException(`Card with number '${number}' not found.`);
     res.number = this.formatCardNumber(res.number);
     return res;
   }

@@ -34,4 +34,12 @@ export class CreateCardDto {
   })
   @Length(1, 255)
   name: string;
+
+  @ApiProperty({
+    description: 'The Card valid date',
+    example: '12/24',
+    maxLength: 5,
+  })
+  @Length(5, 5)
+  validDate: string
 }
