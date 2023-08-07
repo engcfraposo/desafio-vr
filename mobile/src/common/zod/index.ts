@@ -1,41 +1,35 @@
 import { z } from 'zod';
-import { toFormikValidationSchema } from 'zod-formik-adapter';
 
-function isValidCreditCardNumber(value: string): boolean {
-  const sanitizedValue = value.replace(/\D/g, '');
-
-  let sum = 0;
-  let shouldDouble = false;
-
-  for (let i = sanitizedValue.length - 1; i >= 0; i--) {
-    let digit = parseInt(sanitizedValue.charAt(i), 10);
-
-    if (shouldDouble) {
-      digit *= 2;
-      if (digit > 9) {
-        digit -= 9;
-      }
-    }
-
-    sum += digit;
-    shouldDouble = !shouldDouble;
+const isDateGreaterThanToday = (value: string) => {
+  const partes = value.split('/');
+  const [ month, year ] = partes;
+  const cardMonth = +month;
+  const cardYear = +year;
+  const currentDate = new Date();
+  const currentMonth = currentDate.getUTCMonth() + 1;
+  const currentYear = currentDate.getUTCFullYear() % 100;
+  if(cardMonth < 0 || cardMonth > 12){
+    return false
   }
+  if (cardYear > currentYear) {
+    return true;
+  }
+  if (cardYear === currentYear && cardMonth >= currentMonth) {
+    return true;
+  }
+};
 
-  return sum % 10 === 0;
-}
-
-const cardSchema = z.object({
-  id: z.string().uuid(),
-  number: z
-    .string()
-    .regex(/^\d{16}$/)
-    .refine((value) => isValidCreditCardNumber(value), {
-      message: 'Invalid credit card number',
+export const validationSchema = z
+  .object({
+    id: z.string().uuid().nullable(),
+    number: z.string().length(16),
+    cvv: z.string().length(3),
+    name: z.string().min(1).max(255),
+    validDate: z.string().refine(isDateGreaterThanToday, {
+      message:
+        'The expiry date must be greater than the current month and year.',
     }),
-  cvv: z.string().length(3),
-  name: z.string().min(1).max(255),
-});
+  })
+  .required();
 
-export type Card = z.infer<typeof cardSchema>;
-
-export const validateSchema = toFormikValidationSchema(cardSchema)
+export type Card = z.infer<typeof validationSchema>;

@@ -1,22 +1,23 @@
+import Button from '../../components/Button';
+import Container from '../../components/Container';
 
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     return (
-        <Container 
-            title="Wallet Test" 
-            testID='loginScreen'
+        <Container
+            title="Wallet Test"
+            testId='loginScreen'
         >
-            <Button 
-                background="#12C2E9" 
-                color="#fff" 
-                text="Meus Cartões" 
+            <Button
+                colors='primary'
+                text="Meus Cartões"
+                testId='loginScreen'
+                onPress={()=> navigation.navigate('CardListScreen')}
             />
-            <Button 
-                background="#A5FF32" 
-                color="#000" 
-                text="Cadastrar Cartão" 
+            <Button
+                colors='secondary'
+                text="Cadastrar Cartão"
+                testId='loginScreen'
+                onPress={()=> navigation.navigate('AddCardScreen')}
             />
       </Container>
       );
