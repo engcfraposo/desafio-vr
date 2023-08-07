@@ -167,7 +167,7 @@ Desafios e Aprendizado: Durante o desenvolvimento, enfrentei alguns desafios, co
 
 Reaproveitamento de Código: Procurei aplicar o conceito de reaproveitamento de código sempre que possível, criando componentes reutilizáveis e organizando a estrutura do projeto de forma escalável.
 
-Testes: Embora o teste não mencionasse explicitamente a necessidade de testes, acredito na importância dos testes para garantir a qualidade e a robustez da aplicação. Dessa forma, criei testes unitários para algumas funcionalidades essenciais da carteira virtual.
+Testes: Embora o teste não mencionasse explicitamente a necessidade de testes, acredito na importância dos testes para garantir a qualidade e a robustez da aplicação. Dessa forma, criei testes unitários e de integração(backend) para das funcionalidades essenciais da carteira virtual.
 
 No geral, o teste prático foi uma experiência enriquecedora, me permitindo aprofundar meus conhecimentos em desenvolvimento mobile e aprender novas tecnologias. Sinto-me confiante em relação ao resultado final da carteira virtual desenvolvida e estou ansioso para continuar aprimorando minhas habilidades na área.
 
